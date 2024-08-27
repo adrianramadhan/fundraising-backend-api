@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fundraising-backend-api/helper"
 	"fundraising-backend-api/user"
 	"net/http"
 
@@ -29,10 +30,13 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 	}
 
 	user, err := h.userService.RegisterUser(input)
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": user})
+	response := helper.APIResponse("Account has been registered", http.StatusOK, "success", user)
+
+	c.JSON(http.StatusOK, response)
 }

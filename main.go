@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fundraising-backend-api/handler"
 	"fundraising-backend-api/user"
 	"log"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -17,9 +19,14 @@ func main() {
 	}
 
 	userRepository := user.NewRepository(db)
-	user := user.User {
-		Name: "John Doe",
-	}
+	userService := user.NewService(userRepository)
 
-	userRepository.Save(user)
+	userHandler := handler.NewUserHandler(userService)
+
+	router := gin.Default()
+	api := router.Group("/api/v1")
+
+	api.POST("/users", userHandler.RegisterUser)
+
+	router.Run()
 }

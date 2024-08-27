@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"fundraising-backend-api/handler"
 	"fundraising-backend-api/user"
 	"log"
@@ -20,6 +21,17 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+
+	userByEmail, err := userRepository.FindByEmail("adriann@gmail.com")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if userByEmail.ID == 0 {
+		fmt.Println("user not found")
+	} else {
+		fmt.Println("Name : ", userByEmail.Name)
+	}
 
 	userHandler := handler.NewUserHandler(userService)
 

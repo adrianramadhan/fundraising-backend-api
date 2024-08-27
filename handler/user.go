@@ -29,14 +29,18 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	user, err := h.userService.RegisterUser(input)
+	newUser, err := h.userService.RegisterUser(input)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
 		return
 	}
 
-	response := helper.APIResponse("Account has been registered", http.StatusOK, "success", user)
+	// token, err := h.jwtService.GenerateToken(user.ID)
+
+	formatter := user.FormatUser(newUser, "jwtToken")
+
+	response := helper.APIResponse("Account has been registered", http.StatusOK, "success", formatter)
 
 	c.JSON(http.StatusOK, response)
 }

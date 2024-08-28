@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"fundraising-backend-api/helper"
 	"fundraising-backend-api/user"
 	"net/http"
@@ -124,8 +125,10 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	// JWT seakan-akan user yang login ID = 1
+	userID := 1
 
-	path := "images/" + file.Filename
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
@@ -135,9 +138,6 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-
-	// JWT seakan-akan user yang login ID = 1
-	userID := 1
 
 	_, err = h.userService.SaveAvatar(userID, path)
 	if err != nil {

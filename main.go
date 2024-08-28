@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"fundraising-backend-api/auth"
 	"fundraising-backend-api/handler"
 	"fundraising-backend-api/user"
@@ -24,8 +23,6 @@ func main() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 
-	fmt.Println(authService.GenerateToken(1001))
-
 	userHandler := handler.NewUserHandler(userService, authService)
 
 	router := gin.Default()
@@ -38,3 +35,10 @@ func main() {
 
 	router.Run()
 }
+
+// ambil nilai header Authorization: Bearer token
+// dari header Authorization, kita ambil nilai token saja
+// kita validasi token tersebut
+// kita ambil user_id dari token tersebut
+// kita ambil user dari db berdasarkan user_id lewat service
+// kita set context dengan user yang kita dapatkan

@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"fundraising-backend-api/auth"
+	"fundraising-backend-api/campaign"
 	"fundraising-backend-api/handler"
 	"fundraising-backend-api/helper"
 	"fundraising-backend-api/user"
@@ -24,6 +26,22 @@ func main() {
 	}
 
 	userRepository := user.NewRepository(db)
+	campaignRepository := campaign.NewRepository(db)
+
+	campaign, err := campaignRepository.FindByUserID(1)
+
+	fmt.Println("Debug")
+	fmt.Println("Debug")
+	fmt.Println("Debug")
+	fmt.Println(len(campaign))
+	for _, c := range campaign {
+		fmt.Println(c.Name)
+		fmt.Println(c.ShortDescription)
+		fmt.Println(c.Description)
+		fmt.Println(c.GoalAmount)
+		fmt.Println(c.CurrentAmount)
+	}
+
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 
@@ -41,21 +59,21 @@ func main() {
 }
 
 func authMiddleware(authService auth.Service, userService user.Service) gin.HandlerFunc {
-	return func (c *gin.Context) {
+	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
-	
+
 		if !strings.Contains(authHeader, "Bearer") {
 			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
-	
+
 		tokenString := ""
 		arrayToken := strings.Split(authHeader, " ")
 		if len(arrayToken) == 2 {
 			tokenString = arrayToken[1]
 		}
-	
+
 		token, err := authService.ValidateToken(tokenString)
 		if err != nil {
 			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
@@ -81,4 +99,4 @@ func authMiddleware(authService auth.Service, userService user.Service) gin.Hand
 
 		c.Set("currentUser", user)
 	}
-}	
+}

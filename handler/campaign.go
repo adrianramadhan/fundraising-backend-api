@@ -9,12 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// tangkap parameter di handler
-// handler akan memanggil service
-// service yang memanggil repository
-// repository berhubungan dengan db
-// FindAll and FindByUserID
-
 type campaignHandler struct {
 	service campaign.Service
 }

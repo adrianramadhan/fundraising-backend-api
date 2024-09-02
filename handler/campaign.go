@@ -17,7 +17,6 @@ func NewCampaignHandler(service campaign.Service) *campaignHandler {
 	return &campaignHandler{service}
 }
 
-// api/v1/campaigns
 func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 	userID, _ := strconv.Atoi(c.Query("user_id"))
 
@@ -30,4 +29,10 @@ func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 
 	response := helper.APIResponse("List of campaigns", http.StatusOK, "success", campaign.FormatCampaigns(campaigns))
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *campaignHandler) GetCampaign(c *gin.Context) {
+	// handler : mapping id yg di url ke struct input => service, call formatter
+	// service : inputnya struct input => menangkap id dari url, manggil repo
+	// repository : GetCampaignByID
 }

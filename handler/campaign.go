@@ -32,11 +32,6 @@ func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 }
 
 func (h *campaignHandler) GetCampaign(c *gin.Context) {
-	// api/v1/campaigns/:id
-	// handler : mapping id yg di url ke struct input => service, call formatter
-	// service : inputnya struct input => menangkap id dari url, manggil repo
-	// repository : GetCampaignByID
-
 	var input campaign.GetCampaignDetailInput
 
 	err := c.ShouldBindUri(&input)
@@ -53,6 +48,6 @@ func (h *campaignHandler) GetCampaign(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Campaign detail", http.StatusOK, "success", campaignDetail)
+	response := helper.APIResponse("Campaign detail", http.StatusOK, "success", campaign.FormatCampaignDetail(campaignDetail))
 	c.JSON(http.StatusOK, response)
 }

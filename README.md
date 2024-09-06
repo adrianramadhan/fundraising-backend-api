@@ -102,14 +102,3 @@ This is the backend for the Fundraising application, which allows users to creat
   ```
     go run main.go
   ```
-
-## Getting Started
-- POST /register: Register a new user.
-- POST /login: Authenticate a user and receive a JWT.
-- GET /campaigns: List all campaigns.
-- POST /campaigns: Create a new campaign (requires authentication).
-- GET /campaigns/:id: Get details of a campaign.
-- PUT /campaigns/:id: Update a campaign (requires authentication).
-- DELETE /campaigns/:id: Delete a campaign (requires authentication).
-- POST /transactions: Create a transaction (requires authentication).
-- GET /transactions/:id: Get details of a transaction.

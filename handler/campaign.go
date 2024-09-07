@@ -129,6 +129,10 @@ func (h *campaignHandler) UploadCampaignImage(c *gin.Context) {
 		return
 	}
 
+	currentUser := c.MustGet("currentUser").(user.User)
+	input.User = currentUser
+	userID := currentUser.ID
+
 	file, err := c.FormFile("file")
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
@@ -137,9 +141,6 @@ func (h *campaignHandler) UploadCampaignImage(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-
-	currentUser := c.MustGet("currentUser").(user.User)
-	userID := currentUser.Name
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
@@ -156,7 +157,7 @@ func (h *campaignHandler) UploadCampaignImage(c *gin.Context) {
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
 		response := helper.APIResponse("Failed to upload campaign image", http.StatusBadRequest, "error", data)
-		
+
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}

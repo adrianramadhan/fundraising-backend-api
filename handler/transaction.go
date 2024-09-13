@@ -3,6 +3,7 @@ package handler
 import (
 	"fundraising-backend-api/helper"
 	"fundraising-backend-api/transaction"
+	"fundraising-backend-api/user"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,10 +27,14 @@ func (h *transactionHandler) GetCampaignTransactions(c *gin.Context) {
 		return
 	}
 
+	currentUser := c.MustGet("currentUser").(user.User)
+
+	input.User = currentUser
+
 	transactions, err := h.service.GetTransactionsByCampaignID(input)
 	if err != nil {
-		response := helper.APIResponse("Failed to get campaign's transactions", http.StatusInternalServerError, "error", nil)
-		c.JSON(http.StatusInternalServerError, response)
+		response := helper.APIResponse("Failed to get campaign's transactions", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 

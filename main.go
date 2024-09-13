@@ -5,6 +5,8 @@ import (
 	"fundraising-backend-api/campaign"
 	"fundraising-backend-api/handler"
 	"fundraising-backend-api/helper"
+
+	// "fundraising-backend-api/transaction"
 	"fundraising-backend-api/user"
 	"log"
 	"net/http"
@@ -26,6 +28,7 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	campaignRepository := campaign.NewRepository(db)
+	// transactionRepository := transaction.NewRepository(db)
 
 	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campaignRepository)

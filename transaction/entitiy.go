@@ -2,6 +2,8 @@ package transaction
 
 import (
 	"fundraising-backend-api/user"
+	"fundraising-backend-api/campaign"
+
 	"time"
 )
 

@@ -5,6 +5,7 @@ import (
 	"fundraising-backend-api/campaign"
 	"fundraising-backend-api/handler"
 	"fundraising-backend-api/helper"
+	"fundraising-backend-api/payment"
 	"fundraising-backend-api/transaction"
 
 	// "fundraising-backend-api/transaction"
@@ -34,17 +35,8 @@ func main() {
 	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
-	transactionService := transaction.NewService(transactionRepository, campaignRepository)
-
-	user, _ := userService.GetUserByID(4)
-
-	input := transaction.CreateTransactionInput{
-		CampaignID: 1,
-		Amount:    50000,
-		User:      user,
-	}
-
-	transactionService.CreateTransaction(input)
+	paymentService := payment.NewService()
+	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymentService)
 
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignHandler := handler.NewCampaignHandler(campaignService)

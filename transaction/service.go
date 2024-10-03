@@ -3,6 +3,8 @@ package transaction
 import (
 	"errors"
 	"fundraising-backend-api/campaign"
+	"strconv"
+	"time"
 )
 
 type service struct {
@@ -53,6 +55,7 @@ func (s *service) CreateTransaction(input CreateTransactionInput) (Transaction, 
 	transaction.Amount = input.Amount
 	transaction.UserID = input.User.ID
 	transaction.Status = "pending"
+	transaction.Code = "TRX-" + strconv.FormatInt(time.Now().Unix(), 10)
 
 	newTransaction, err := s.repository.Save(transaction)
 	if err != nil {

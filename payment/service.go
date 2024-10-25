@@ -2,6 +2,7 @@ package payment
 
 import (
 	"fundraising-backend-api/user"
+	"os"
 
 	"github.com/veritrans/go-midtrans"
 )
@@ -19,8 +20,8 @@ func NewService() *service {
 
 func (s *service) GetPaymentURL(transaction Transaction, user user.User) (string, error) {
 	midclient := midtrans.NewClient()
-	midclient.ClientKey = ""
-	midclient.ServerKey = ""
+	midclient.ClientKey = os.Getenv("MIDTRANS_CLIENT_KEY")
+	midclient.ServerKey = os.Getenv("MIDTRANS_SERVER_KEY")
 	midclient.APIEnvType = midtrans.Sandbox
 
 	snapGateway := midtrans.SnapGateway{

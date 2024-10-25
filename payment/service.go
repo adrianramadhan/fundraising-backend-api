@@ -3,6 +3,7 @@ package payment
 import (
 	"fundraising-backend-api/user"
 	"os"
+	"strconv"
 
 	"github.com/veritrans/go-midtrans"
 )
@@ -34,7 +35,7 @@ func (s *service) GetPaymentURL(transaction Transaction, user user.User) (string
 			FName: user.Name,
 		},
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID:  transaction.Code,
+			OrderID:  strconv.Itoa(transaction.ID),
 			GrossAmt: int64(transaction.Amount),
 		},
 	}
